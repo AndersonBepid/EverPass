@@ -8,12 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		A081E35A20F2269200C4A8F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081E35920F2269200C4A8F7 /* AppDelegate.swift */; };
-		A081E35C20F2269200C4A8F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081E35B20F2269200C4A8F7 /* ViewController.swift */; };
+		A081E35C20F2269200C4A8F7 /* ListaChavesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081E35B20F2269200C4A8F7 /* ListaChavesViewController.swift */; };
 		A081E35F20F2269200C4A8F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A081E35D20F2269200C4A8F7 /* Main.storyboard */; };
 		A081E36120F2269400C4A8F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A081E36020F2269400C4A8F7 /* Assets.xcassets */; };
 		A081E36420F2269400C4A8F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A081E36220F2269400C4A8F7 /* LaunchScreen.storyboard */; };
 		A081E36F20F2269400C4A8F7 /* EverPassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081E36E20F2269400C4A8F7 /* EverPassTests.swift */; };
 		A081E37A20F2269400C4A8F7 /* EverPassUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081E37920F2269400C4A8F7 /* EverPassUITests.swift */; };
+		A081E38C20F2B2BC00C4A8F7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081E38B20F2B2BC00C4A8F7 /* LoginViewController.swift */; };
+		A081E38E20F2B57F00C4A8F7 /* FuncoesPublicas.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081E38D20F2B57F00C4A8F7 /* FuncoesPublicas.swift */; };
+		A081E39020F2FACE00C4A8F7 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081E38F20F2FACE00C4A8F7 /* Enum.swift */; };
+		A081E39220F356B600C4A8F7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081E39120F356B600C4A8F7 /* User.swift */; };
+		A081E39420F358EB00C4A8F7 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A081E39320F358EB00C4A8F7 /* UserStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +41,7 @@
 /* Begin PBXFileReference section */
 		A081E35620F2269200C4A8F7 /* EverPass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EverPass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A081E35920F2269200C4A8F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A081E35B20F2269200C4A8F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A081E35B20F2269200C4A8F7 /* ListaChavesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListaChavesViewController.swift; sourceTree = "<group>"; };
 		A081E35E20F2269200C4A8F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A081E36020F2269400C4A8F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A081E36320F2269400C4A8F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +52,11 @@
 		A081E37520F2269400C4A8F7 /* EverPassUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EverPassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A081E37920F2269400C4A8F7 /* EverPassUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EverPassUITests.swift; sourceTree = "<group>"; };
 		A081E37B20F2269400C4A8F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A081E38B20F2B2BC00C4A8F7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A081E38D20F2B57F00C4A8F7 /* FuncoesPublicas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FuncoesPublicas.swift; sourceTree = "<group>"; };
+		A081E38F20F2FACE00C4A8F7 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
+		A081E39120F356B600C4A8F7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		A081E39320F358EB00C4A8F7 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,11 +108,12 @@
 			isa = PBXGroup;
 			children = (
 				A081E35920F2269200C4A8F7 /* AppDelegate.swift */,
-				A081E35B20F2269200C4A8F7 /* ViewController.swift */,
-				A081E35D20F2269200C4A8F7 /* Main.storyboard */,
-				A081E36020F2269400C4A8F7 /* Assets.xcassets */,
-				A081E36220F2269400C4A8F7 /* LaunchScreen.storyboard */,
-				A081E36520F2269400C4A8F7 /* Info.plist */,
+				A081E38F20F2FACE00C4A8F7 /* Enum.swift */,
+				A081E38D20F2B57F00C4A8F7 /* FuncoesPublicas.swift */,
+				A081E38920F2279A00C4A8F7 /* Model */,
+				A081E38820F2277B00C4A8F7 /* View */,
+				A081E38720F2276300C4A8F7 /* Controller */,
+				A081E38A20F227BD00C4A8F7 /* Suport */,
 			);
 			path = EverPass;
 			sourceTree = "<group>";
@@ -123,6 +134,42 @@
 				A081E37B20F2269400C4A8F7 /* Info.plist */,
 			);
 			path = EverPassUITests;
+			sourceTree = "<group>";
+		};
+		A081E38720F2276300C4A8F7 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A081E35B20F2269200C4A8F7 /* ListaChavesViewController.swift */,
+				A081E38B20F2B2BC00C4A8F7 /* LoginViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		A081E38820F2277B00C4A8F7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A081E35D20F2269200C4A8F7 /* Main.storyboard */,
+				A081E36220F2269400C4A8F7 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A081E38920F2279A00C4A8F7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A081E39120F356B600C4A8F7 /* User.swift */,
+				A081E39320F358EB00C4A8F7 /* UserStore.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A081E38A20F227BD00C4A8F7 /* Suport */ = {
+			isa = PBXGroup;
+			children = (
+				A081E36020F2269400C4A8F7 /* Assets.xcassets */,
+				A081E36520F2269400C4A8F7 /* Info.plist */,
+			);
+			path = Suport;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,7 +303,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A081E35C20F2269200C4A8F7 /* ViewController.swift in Sources */,
+				A081E38C20F2B2BC00C4A8F7 /* LoginViewController.swift in Sources */,
+				A081E39420F358EB00C4A8F7 /* UserStore.swift in Sources */,
+				A081E35C20F2269200C4A8F7 /* ListaChavesViewController.swift in Sources */,
+				A081E39220F356B600C4A8F7 /* User.swift in Sources */,
+				A081E38E20F2B57F00C4A8F7 /* FuncoesPublicas.swift in Sources */,
+				A081E39020F2FACE00C4A8F7 /* Enum.swift in Sources */,
 				A081E35A20F2269200C4A8F7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -432,12 +484,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3KXGKNH9KW;
-				INFOPLIST_FILE = EverPass/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/EverPass/Suport/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.andersonoliveira.EverPass;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andersonoliveira.everpass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -450,12 +502,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3KXGKNH9KW;
-				INFOPLIST_FILE = EverPass/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/EverPass/Suport/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.andersonoliveira.EverPass;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andersonoliveira.everpass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
