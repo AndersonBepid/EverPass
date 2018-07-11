@@ -26,6 +26,21 @@ public func popup(withTitle t: String?, andBory b: String?) -> UIAlertController
     return alert
 }
 
+public func popupSeletivo(withViewController vc: UIViewController, title t: String?, andBory b: String?, completion: @escaping (_ result: Bool) -> Void) {
+    let alert = UIAlertController(title: t, message: b, preferredStyle: .alert)
+    let sim = UIAlertAction(title: "Sim", style: .default) { (_) in
+        completion(true)
+    }
+    let nao = UIAlertAction(title: "Não", style: .cancel) { (_) in
+        completion(false)
+    }
+    
+    alert.addAction(sim)
+    alert.addAction(nao)
+    
+    vc.present(alert, animated: true, completion: nil)
+}
+
 public func getPostString(params: [String:Any]) -> String {
     var data = [String]()
     for(key, value) in params

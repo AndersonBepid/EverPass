@@ -18,7 +18,6 @@ class UserStore {
         
         if let nome = user.nome, let email = user.email, let senha = user.senha {
             let parameters = ["email": email, "name": nome, "password": senha]
-            print(parameters)
             
             var request = URLRequest(url: url.url!)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -36,9 +35,8 @@ class UserStore {
                     return
                 }
                 
-                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 201 {           // check for http errors
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 201, httpStatus.statusCode != 200 {           // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(response)")
                     let error = NSError(domain:"", code:httpStatus.statusCode, userInfo:nil)
                     completion(error, nil)
                     return
@@ -46,8 +44,8 @@ class UserStore {
                 
                 do {
                     let jsonSerializer = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                    print(jsonSerializer)
-                    completion(nil, nil)
+                    user.token = jsonSerializer!["token"] as? String
+                    completion(nil, user)
                 } catch {
                     completion(error, nil)
                 }
@@ -62,7 +60,6 @@ class UserStore {
         
         if let email = user.email, let senha = user.senha {
             let parameters = ["email": email, "password": senha]
-            print(parameters)
             
             var request = URLRequest(url: url.url!)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -80,9 +77,8 @@ class UserStore {
                     return
                 }
                 
-                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 201 {           // check for http errors
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 201, httpStatus.statusCode != 200 {           // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(response)")
                     let error = NSError(domain:"", code:httpStatus.statusCode, userInfo:nil)
                     completion(error, nil)
                     return
@@ -90,8 +86,8 @@ class UserStore {
                 
                 do {
                     let jsonSerializer = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                    print(jsonSerializer)
-                    completion(nil, nil)
+                    user.token = jsonSerializer!["token"] as? String
+                    completion(nil, user)
                 } catch {
                     completion(error, nil)
                 }

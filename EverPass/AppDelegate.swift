@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     static var user: User?
     static let urlBase = "https://dev.people.com.ai"
+    static var udUser = UserDefaults.standard
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

@@ -10,18 +10,18 @@ import UIKit
 
 class User: NSObject {
     
-    var nome: String?
+    var nome: String!
     var email: String!
     var senha: String!
+    var token: String?
     
-    init(nome: String? = nil, email: String, senha: String) {
+    init(nome: String, email: String, senha: String) {
         self.nome = nome
         self.email = email
         self.senha = senha
     }
     
-    init(withJson result: [String: String]) {
-        self.nome = result["name"]
-        self.email = result["email"]
+    override var description: String {
+        return "Nome: " + self.nome!
     }
 }
