@@ -31,6 +31,7 @@ class ListaChavesViewController: UIViewController {
         super.viewDidLoad()
         
         self.cvChaves.backgroundColor = .clear
+        self.cvChaves.isExclusiveTouch = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,14 +64,16 @@ class ListaChavesViewController: UIViewController {
     //
     func getChaves(byUser user: User) {
         self.aiChave.startAnimating()
-        let chaves = KeyStore.singleton.load(byService: user.email)
-        if chaves.isEmpty {
-            self.chaves = []
-            self.lblInfoSemResultado.isHidden = false
-        }else {
-            self.chaves = chaves
-            self.lblInfoSemResultado.isHidden = true
-        }
+        KeyStore.singleton.load(byService: user.email, completion: { (chaves) in
+            if chaves.isEmpty {
+                self.chaves = []
+                self.lblInfoSemResultado.isHidden = false
+            }else {
+                self.chaves = chaves
+                self.lblInfoSemResultado.isHidden = true
+            }
+        })
+        
         self.cvChaves.reloadData()
         self.aiChave.stopAnimating()
     }

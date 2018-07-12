@@ -20,6 +20,7 @@ class DetalhesViewController: UIViewController {
     @IBOutlet weak var viewSenha: UIView!
     @IBOutlet weak var imgSenha: UIImageView!
     @IBOutlet weak var tfSenha: UITextField!
+    @IBOutlet weak var lblInfoSenhaCopiada: UILabel!
     @IBOutlet weak var lcLogin: NSLayoutConstraint!
     
     @IBOutlet weak var btMudarVisualizacao: UIButton!
@@ -54,13 +55,21 @@ class DetalhesViewController: UIViewController {
     
     @IBAction func copiarSenha(_ sender: UIBarButtonItem) {
         guard let senha = self.tfSenha.text else {
+            popup(withViewController: self, andTitle: "Copiar", andBory: "Não foi possível copiar a senha para a área de transferência.", andAction: nil)
             return
         }
         
         if senha.isEmpty {
-            popup(withViewController: self, andTitle: "Área de transferência", andBory: "Você", andAction: nil)
+            popup(withViewController: self, andTitle: "Copiar", andBory: "Não foi possível copiar a senha para a área de transferência.", andAction: nil)
+        }else {
+            UIPasteboard.general.string = senha
+            self.lblInfoSenhaCopiada.isHidden = false
+            
+            //Dispara um trecho de codigo apos X sec
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.lblInfoSenhaCopiada.isHidden = true
+            }
         }
-        UIPasteboard.general.string = "Hello world"
     }
     
     
@@ -73,12 +82,59 @@ class DetalhesViewController: UIViewController {
         self.tfSenha.reloadInputViews()
     }
     
-    @IBAction func teste(_ sender: UITextField) {
+    @IBAction func editandoSenha(_ sender: UITextField) {
         guard let senha = sender.text else { return }
         
         self.btCopy.isEnabled = senha.isEmpty ? false : true
     }
     
+    @IBAction func update(_ sender: UIBarButtonItem) {
+        //baixar teclado
+        self.view.endEditing(true)
+        
+        //Garantindo que nenhum tf vai ser nulo
+        if let url = self.tfUrl.text, let email = self.tfEmail.text, let senha = tfSenha.text {
+            
+            //Verificando se os tfs estão vazios, e aplicando uma animação caso esteja
+            if self.isVoid(withIntups: [url, email, senha], viewsForAnimation: [self.viewUrl, self.viewEmail, self.viewSenha]) { return }
+            
+            let chave = Key(url: url, email: email, senha: senha)
+            guard let user = self.user else {
+                return
+            }
+            let account = self.chave.url + "/" + self.chave.email
+            let cAccount = chave.url + "/" + chave.email
+            KeyStore.singleton.update(byService: user.email, andOldAccount: account, andCurrentAccount: cAccount, andKey: chave, completion: { (result) in
+                if result {
+                    popup(withViewController: self, andTitle: chave.url, andBory: "Atualizado com sucesso!") { (_) in
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }else {
+                    popup(withViewController: self, andTitle: chave.url, andBory: "Houve um problema em salvar esse site, verifique se as informações prestadas já estão salvas, ou tente novamente mais tarde.", andAction: nil)
+                }
+            })
+        }
+    }
+    
+    @IBAction func remove(_ sender: UIBarButtonItem) {
+        popupSeletivo(withViewController: self, title: "Excluir", andBory: "Você tem certeza que deseja excluir?") { (result) in
+            if result {
+                guard let user = self.user else {
+                    return
+                }
+                let account = self.chave.url + "/" + self.chave.email
+                KeyStore.singleton.remove(byAccount: account, andService: user.email, andKey: self.chave, completion: { (result) in
+                    if result {
+                        popup(withViewController: self, andTitle: "Site", andBory: "Excluído com sucesso!") { (_) in
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }else {
+                        popup(withViewController: self, andTitle: "Ops!", andBory: "Houve um erro inesperado, por favor, tente novamente mais tarde.", andAction: nil)
+                    }
+                })
+            }
+        }
+    }
     
     //Ajustes de auto layout
     func settingsUI() {
@@ -109,6 +165,23 @@ class DetalhesViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    //Verificando se os tfs estão vazios, e aplicando uma animação caso esteja
+    func isVoid(withIntups inputs: [String], viewsForAnimation views: [UIView]) -> Bool {
+        
+        var out = false
+        var index = 0
+        
+        inputs.forEach { (value) in
+            if value.isEmpty {
+                let view = views[index]
+                animationTF(view)
+                out = true
+            }
+            index += 1
+        }
+        return out
     }
     
     /*

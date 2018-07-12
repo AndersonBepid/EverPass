@@ -35,6 +35,6 @@ class Key: NSObject, NSCoding {
     }
     
     override var description: String {
-        return "E-mail: " + self.email + "Senha: " + self.senha
+        return "E-mail: " + self.email + " Senha: " + self.senha
     }
 }

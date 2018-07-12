@@ -65,10 +65,15 @@ class AddChaveViewController: UIViewController {
                 return
             }
             let account = chave.url + "/" + chave.email
-            KeyStore.singleton.save(byService: user.email, andAccount: account, andKey: chave)
-            popup(withViewController: self, andTitle: chave.url, andBory: "Salvo com sucesso!") { (_) in
-                self.navigationController?.popViewController(animated: true)
-            }
+            KeyStore.singleton.save(byService: user.email, andAccount: account, andKey: chave, completion: { (result) in
+                if result {
+                    popup(withViewController: self, andTitle: chave.url, andBory: "Salvo com sucesso!") { (_) in
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }else {
+                    popup(withViewController: self, andTitle: chave.url, andBory: "Houve um problema em salvar esse site, verifique se as informações prestadas já estão salvas, ou tente novamente mais tarde.", andAction: nil)
+                }
+            })
         }
     }
     
@@ -76,6 +81,7 @@ class AddChaveViewController: UIViewController {
     func settingsUI() {
         //Bloqueando a possibilidade de clicar em mais de um botao ao msm tempo
         self.btMudarVisualizacao.isExclusiveTouch = true
+        
         
         let height = self.view.frame.height
         self.lcLogin.constant = height * 0.068

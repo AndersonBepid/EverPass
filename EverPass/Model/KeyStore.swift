@@ -23,40 +23,47 @@ class KeyStore {
     let imageCache = NSCache<NSString, UIImage>()
 
     
-    func update(byAccount account: String, andURL service: String, andKey key: Key) {
-        let chaveData = NSKeyedArchiver.archivedData(withRootObject: key)
+    func update(byService service: String, andOldAccount account: String, andCurrentAccount cAccount: String, andKey key: Key, completion: (Bool) -> Void) {
+        let keyData = NSKeyedArchiver.archivedData(withRootObject: key)
         
         // Instantiate a new default keychain query
-        let keychainQuery: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, service, account, kCFBooleanTrue, kSecMatchLimitOneValue], forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecReturnDataValue, kSecMatchLimitValue])
+        let keychainQuery: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, service, account], forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue])
         
-        let status = SecItemUpdate(keychainQuery as CFDictionary, [kSecValueDataValue: chaveData] as CFDictionary)
+        let status = SecItemUpdate(keychainQuery as CFDictionary, [kSecValueDataValue: keyData, kSecAttrAccountValue: cAccount] as CFDictionary)
         
         if (status != errSecSuccess) {
             if let err = SecCopyErrorMessageString(status, nil) {
                 print("Read failed: \(err)")
             }
+            completion(false)
+        }else {
+            completion(true)
         }
     }
     
     
-    func remove(byAccount account: String, andService service: String, andKey key: Key) {
+    func remove(byAccount account: String, andService service: String, andKey key: Key, completion: (Bool) -> Void) {
         let keyData = NSKeyedArchiver.archivedData(withRootObject: key)
-
-        // Instantiate a new default keychain query
-        let keychainQuery: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, account, service, keyData], forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecValueDataValue])
-
-        // Delete any existing items
-        let status = SecItemDelete(keychainQuery as CFDictionary)
-        if (status != errSecSuccess) {
-            if let err = SecCopyErrorMessageString(status, nil) {
-                print("Remove failed: \(err)")
-            }
-        }
         
+        // Instantiate a new default keychain query
+        let keychainQuery: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, service, account, keyData], forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecValueDataValue])
+        
+        // Add the new keychain item
+        let status = SecItemDelete(keychainQuery as CFDictionary)
+        //        status = SecItemAdd(keychainQuery as CFDictionary, nil)
+        
+        if (status != errSecSuccess) {    // Always check the status
+            if let err = SecCopyErrorMessageString(status, nil) {
+                print("Write failed: \(err)")
+            }
+            completion(false)
+        }else {
+            completion(true)
+        }
     }
     
     
-    func save(byService service: String, andAccount account: String, andKey key: Key) {
+    func save(byService service: String, andAccount account: String, andKey key: Key, completion: (Bool) -> Void) {
         let keyData = NSKeyedArchiver.archivedData(withRootObject: key)
         
         // Instantiate a new default keychain query
@@ -69,10 +76,13 @@ class KeyStore {
             if let err = SecCopyErrorMessageString(status, nil) {
                 print("Write failed: \(err)")
             }
+            completion(false)
+        }else {
+            completion(true)
         }
     }
     
-    func load(byService service: String) -> [Key] {
+    func load(byService service: String, completion: (_ chaves: [Key]) -> Void) {
         // Instantiate a new default keychain query
         // Tell the query to return a result
         // Limit our results to one item
@@ -90,11 +100,13 @@ class KeyStore {
                     let key = NSKeyedUnarchiver.unarchiveObject(with: retrievedData) as! Key
                     keys.append(key)
                 }
+                
             }
+            completion(keys)
         } else {
             print("Nothing was retrieved from the keychain. Status code \(status)")
+            completion(keys)
         }
-        return keys
     }
     
     func logo(withURL urlKey: String, andUser user: User, completion: @escaping (_ err: Error?, _ img: UIImage?) -> Void) {

@@ -284,7 +284,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="continue" secureTextEntry="YES"/>
                                                         <connections>
-                                                            <action selector="teste:" destination="LEu-Vr-RLt" eventType="editingChanged" id="8oM-ju-i9x"/>
+                                                            <action selector="editandoSenha:" destination="LEu-Vr-RLt" eventType="editingChanged" id="hrs-cB-53z"/>
                                                         </connections>
                                                     </textField>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uAf-tw-N7M">
@@ -331,6 +331,12 @@
                                                     <constraint firstItem="uAf-tw-N7M" firstAttribute="top" secondItem="6me-9m-tko" secondAttribute="top" id="zUp-Vo-XQR"/>
                                                 </constraints>
                                             </view>
+                                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Senha copiada para a área de transferência" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfI-cb-x5Y">
+                                                <rect key="frame" x="0.0" y="-222" width="335" height="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
+                                                <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -355,8 +361,16 @@
                     </view>
                     <navigationItem key="navigationItem" title="Detalhes" id="mpP-sX-LQJ">
                         <rightBarButtonItems>
-                            <barButtonItem title="Item" image="save" id="Siy-9i-XXf"/>
-                            <barButtonItem title="Item" image="delete" id="sRD-Gn-g1w"/>
+                            <barButtonItem title="Item" image="update" id="Siy-9i-XXf">
+                                <connections>
+                                    <action selector="update:" destination="LEu-Vr-RLt" id="drv-Wy-poR"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="delete" id="sRD-Gn-g1w">
+                                <connections>
+                                    <action selector="remove:" destination="LEu-Vr-RLt" id="Tc3-ha-46M"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="Item" image="copy" id="X0g-MO-lt2">
                                 <connections>
                                     <action selector="copiarSenha:" destination="LEu-Vr-RLt" id="A5r-mI-aNX"/>
@@ -365,10 +379,10 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <outlet property="btCopy" destination="X0g-MO-lt2" id="w0Q-Vi-QKy"/>
                         <outlet property="btMudarVisualizacao" destination="W0n-cZ-h52" id="5Ui-mb-iM8"/>
                         <outlet property="imgSenha" destination="cYw-rH-3MV" id="u2l-XF-viT"/>
                         <outlet property="imgUrl" destination="s9t-bs-Czg" id="oRa-vw-rzf"/>
+                        <outlet property="lblInfoSenhaCopiada" destination="bfI-cb-x5Y" id="dNm-51-rjc"/>
                         <outlet property="lcLogin" destination="w2Q-RV-g4m" id="Z7P-Re-GjA"/>
                         <outlet property="tfEmail" destination="ID4-4T-efe" id="l3L-aJ-TJi"/>
                         <outlet property="tfSenha" destination="Bjf-1a-iGi" id="QCo-x2-CuD"/>
@@ -949,6 +963,7 @@
                         <outlet property="btEntrar" destination="P04-7r-JZh" id="O0f-f1-kE7"/>
                         <outlet property="btEntrarCadastrar" destination="0VV-bz-Il3" id="bvl-u1-ErO"/>
                         <outlet property="btTouchID" destination="7ZS-ap-4be" id="ItH-b6-Tth"/>
+                        <outlet property="imgSenhaSignUp" destination="bMu-0e-Xuj" id="Sqs-hW-6mD"/>
                         <outlet property="lblBemVindo" destination="IjM-zr-hrb" id="hBN-BL-Q9G"/>
                         <outlet property="lblInfoEmailSignUp" destination="tzl-rM-vZG" id="adT-bp-PQg"/>
                         <outlet property="lblInfoSenhaSignUp" destination="HsN-Yo-M41" id="TbH-OX-k1d"/>
@@ -1020,6 +1035,7 @@
         <image name="save" width="30" height="30"/>
         <image name="signIn" width="50" height="50"/>
         <image name="switch" width="25" height="25"/>
+        <image name="update" width="30" height="30"/>
         <image name="urlIn" width="50" height="50"/>
         <image name="userIn" width="50" height="50"/>
     </resources>
