@@ -17,13 +17,13 @@ public func shadow(to layer: CALayer, color: UIColor) {
     layer.shadowColor = color.cgColor
 }
 
-public func popup(withTitle t: String?, andBory b: String?) -> UIAlertController {
+public func popup(withViewController vc: UIViewController, andTitle t: String?, andBory b: String?, andAction a: ((UIAlertAction) -> Void)?) {
     let alert = UIAlertController(title: t, message: b, preferredStyle: .alert)
-    let okAction = UIAlertAction(title: "Ok", style: .cancel)
+    let okAction = UIAlertAction(title: "Ok", style: .default, handler: a)
     
     alert.addAction(okAction)
     
-    return alert
+    vc.present(alert, animated: true, completion: nil)
 }
 
 public func popupSeletivo(withViewController vc: UIViewController, title t: String?, andBory b: String?, completion: @escaping (_ result: Bool) -> Void) {

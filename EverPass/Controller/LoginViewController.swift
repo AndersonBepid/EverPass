@@ -31,10 +31,12 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var lblInfoSenhaSignUp: UILabel!
     @IBOutlet weak var lcLogin: NSLayoutConstraint!
     
+    @IBOutlet weak var viewEntrarCadastrar: UIView!
     @IBOutlet weak var btEntrarCadastrar: UIButton!
     @IBOutlet weak var aiLogin: UIActivityIndicatorView!
     
     @IBOutlet weak var svTouchID: UIStackView!
+    @IBOutlet weak var viewTouchID: UIView!
     @IBOutlet weak var btTouchID: UIButton!
     
     override func viewDidLoad() {
@@ -86,7 +88,7 @@ class LoginViewController: UIViewController {
     @IBAction func mudarVisibilidade(_ sender: UIButton) {
         let status = visibilidadeStatus(rawValue: sender.tag)!
         
-        self.imgSenhaSignUp.image = status == .visivel ? #imageLiteral(resourceName: "lock") : #imageLiteral(resourceName: "unlock")
+        self.imgSenhaSignUp.image = status == .visivel ? #imageLiteral(resourceName: "lockIn") : #imageLiteral(resourceName: "unlockIn")
         self.tfSenhaSignUp.isSecureTextEntry = !self.tfSenhaSignUp.isSecureTextEntry
         sender.tag = status.value()
         self.tfSenhaSignUp.reloadInputViews()
@@ -189,6 +191,12 @@ class LoginViewController: UIViewController {
         self.lcLogin.constant = height * 0.068
         self.lblBemVindo.font = self.lblBemVindo.font.withSize(height * 0.045)
         self.lblSubTitulo.font = self.lblSubTitulo.font.withSize(height * 0.03)
+        
+        shadow(to: self.viewSegmented.layer, color: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5))
+        self.viewEntrarCadastrar.layer.masksToBounds = false
+        shadow(to: self.viewEntrarCadastrar.layer, color: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5))
+        self.viewTouchID.layer.masksToBounds = false
+        shadow(to: self.viewTouchID.layer, color: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5))
     }
     
     //Vereficando se esconde o botao de "Entrar com o Touch ID"
@@ -227,8 +235,7 @@ class LoginViewController: UIViewController {
         DispatchQueue.main.async {
             self.isWaitingSign(false)
             if err != nil {
-                let p = popup(withTitle: "Ops!", andBory: "Ocorreu um problema ao cadastrar-se, por favor verifique as informações prestadas e tente novamente.")
-                self.present(p, animated: true, completion: nil)
+                popup(withViewController: self, andTitle: "Ops!", andBory: "Ocorreu um problema ao cadastrar-se, por favor verifique as informações prestadas e tente novamente.", andAction: nil)
                 return
             }
             
