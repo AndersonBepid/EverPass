@@ -36,11 +36,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="335" height="70"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zNf-kE-vrC">
-                                                    <rect key="frame" x="0.0" y="7" width="335" height="56"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </searchBar>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rP9-N1-YnE">
                                                     <rect key="frame" x="0.0" y="0.0" width="335" height="70"/>
                                                     <subviews>
@@ -116,6 +111,7 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.12941176469999999" green="0.1647058824" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dV5-Li-0zl" secondAttribute="bottom" id="0sw-Km-Afe"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dV5-Li-0zl" secondAttribute="trailing" id="8dK-Zp-So8"/>

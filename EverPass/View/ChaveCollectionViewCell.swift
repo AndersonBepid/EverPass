@@ -34,6 +34,7 @@ class ChaveCollectionViewCell: UICollectionViewCell {
         
         self.layer.masksToBounds = false
         shadow(to: self.layer, color: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5))
-        
     }
+    
+    
 }

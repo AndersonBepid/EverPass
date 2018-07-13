@@ -31,6 +31,65 @@ class EverPassUITests: XCTestCase {
     func testExample() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        
+        let app = XCUIApplication()
+        
+        app.textFields["E-mail"].tap()
+        let email = "anderson@email.com"
+        email.forEach { (c) in
+            let letra = String(c)
+            app.keys[letra].tap()
+        }
+        
+        app.secureTextFields["Senha"].tap()
+        app/*@START_MENU_TOKEN@*/.buttons["shift"]/*[[".keyboards.buttons[\"shift\"]",".buttons[\"shift\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.keys["S"].tap()
+        let senha = "enha"
+        senha.forEach { (c) in
+            let letra = String(c)
+            app.keys[letra].tap()
+        }
+        
+        app.keys["more"].tap()
+        let senha2 = "@12346"
+        senha2.forEach { (c) in
+            let letra = String(c)
+            app.keys[letra].tap()
+        }
+        
+        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .other).element(boundBy: 0).children(matching: .other).element(boundBy: 3).buttons["Entrar"].tap()
+        
+        let sitesNavigationBar = app.navigationBars["Sites"]
+        let itemButton = sitesNavigationBar.children(matching: .button).matching(identifier: "Item").element(boundBy: 2)
+        itemButton.tap()
+        
+        app.textFields["URL"].tap()
+        let url = "www.cedrotech.com"
+        url.forEach { (c) in
+            let letra = String(c)
+            app.keys[letra].tap()
+        }
+        
+        app.textFields["Usuário/E-mail"].tap()
+        let user = "andersoncedrense"
+        user.forEach { (c) in
+            let letra = String(c)
+            app.keys[letra].tap()
+        }
+        
+        app.secureTextFields["Senha"].tap()
+        let senha3 = "qwerty"
+        senha3.forEach { (c) in
+            let letra = String(c)
+            app.keys[letra].tap()
+        }
+        
+        
+        let itemButton2 = app.navigationBars["Adicionar site"].children(matching: .button).matching(identifier: "Item").element(boundBy: 1)
+        itemButton2.tap()
+        app.alerts["www.cedrotech.com"].buttons["Ok"].tap()
+        
     }
     
 }
