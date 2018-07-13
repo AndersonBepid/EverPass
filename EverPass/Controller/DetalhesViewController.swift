@@ -15,6 +15,7 @@ class DetalhesViewController: UIViewController {
     @IBOutlet weak var imgUrl: UIImageView!
     @IBOutlet weak var viewUrl: UIView!
     @IBOutlet weak var tfUrl: UITextField!
+    @IBOutlet weak var btUrl: UIButton!
     @IBOutlet weak var viewEmail: UIView!
     @IBOutlet weak var tfEmail: UITextField!
     @IBOutlet weak var viewSenha: UIView!
@@ -76,16 +77,32 @@ class DetalhesViewController: UIViewController {
     @IBAction func mudarVisibilidade(_ sender: UIButton) {
         let status = visibilidadeStatus(rawValue: sender.tag)!
         
-        self.imgSenha.image = status == .visivel ? #imageLiteral(resourceName: "lockIn") : #imageLiteral(resourceName: "unlockIn")
+        self.imgSenha.image = status == .visivel ? #imageLiteral(resourceName: "lock") : #imageLiteral(resourceName: "unlock")
         self.tfSenha.isSecureTextEntry = !self.tfSenha.isSecureTextEntry
         sender.tag = status.value()
         self.tfSenha.reloadInputViews()
     }
     
-    @IBAction func editandoSenha(_ sender: UITextField) {
-        guard let senha = sender.text else { return }
-        
-        self.btCopy.isEnabled = senha.isEmpty ? false : true
+    @IBAction func abrirSite(_ sender: UIButton) {
+        guard let url = self.tfUrl.text, !url.isEmpty else { return }
+        print("ok")
+        open(byURL: url) { (succes) in
+            if succes {
+                print("foi")
+            }else {
+                print("nao foi")
+            }
+        }
+    }
+    
+    @IBAction func escrevendo(_ sender: UITextField) {
+        if sender == self.tfSenha {
+            guard let senha = sender.text, let _ = self.btCopy else { return }
+            self.btCopy.isEnabled = senha.isEmpty ? false : true
+        }else if sender == self.tfUrl {
+            guard let url = sender.text, let _ = self.btUrl else { return }
+            self.btUrl.isHidden = url.isEmpty ? true : false
+        }
     }
     
     @IBAction func update(_ sender: UIBarButtonItem) {
@@ -98,13 +115,12 @@ class DetalhesViewController: UIViewController {
             //Verificando se os tfs estão vazios, e aplicando uma animação caso esteja
             if self.isVoid(withIntups: [url, email, senha], viewsForAnimation: [self.viewUrl, self.viewEmail, self.viewSenha]) { return }
             
-            let chave = Key(url: url, email: email, senha: senha)
+            let cKey = Key(url: url, email: email, senha: senha)
             guard let user = self.user else {
                 return
             }
-            let account = self.chave.url + "/" + self.chave.email
-            let cAccount = chave.url + "/" + chave.email
-            KeyStore.singleton.update(byService: user.email, andOldAccount: account, andCurrentAccount: cAccount, andKey: chave, completion: { (result) in
+            
+            KeyStore.singleton.update(byKey: self.chave, fromKey: cKey, byUser: user, completion: { (result) in
                 if result {
                     popup(withViewController: self, andTitle: chave.url, andBory: "Atualizado com sucesso!") { (_) in
                         self.navigationController?.popViewController(animated: true)
@@ -122,8 +138,8 @@ class DetalhesViewController: UIViewController {
                 guard let user = self.user else {
                     return
                 }
-                let account = self.chave.url + "/" + self.chave.email
-                KeyStore.singleton.remove(byAccount: account, andService: user.email, andKey: self.chave, completion: { (result) in
+                
+                KeyStore.singleton.remove(Key: self.chave, byUser: user, completion: { (result) in
                     if result {
                         popup(withViewController: self, andTitle: "Site", andBory: "Excluído com sucesso!") { (_) in
                             self.navigationController?.popViewController(animated: true)
@@ -147,7 +163,7 @@ class DetalhesViewController: UIViewController {
     
     //Reset UI do animation TF
     func cleanAnimationTF() {
-        self.viewUrl.backgroundColor = #colorLiteral(red: 0.6303958297, green: 0.7025621533, blue: 0.7372831702, alpha: 1)
+        self.viewUrl.backgroundColor = #colorLiteral(red: 0.2666666667, green: 0.3450980392, blue: 0.4078431373, alpha: 1)
         self.viewEmail.backgroundColor = self.viewUrl.backgroundColor
         self.viewSenha.backgroundColor = self.viewUrl.backgroundColor
     }
@@ -161,7 +177,7 @@ class DetalhesViewController: UIViewController {
                     //Recebendo a imagem e removendo a view de animação
                     self.imgUrl.image = img
                 }else {
-                    self.imgUrl.image = #imageLiteral(resourceName: "urlIn")
+                    self.imgUrl.image = #imageLiteral(resourceName: "url")
                 }
             }
         }

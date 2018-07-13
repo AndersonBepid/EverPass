@@ -50,15 +50,29 @@ public func getPostString(params: [String:Any]) -> String {
     return data.map { String($0) }.joined(separator: "&")
 }
 
-public func open(byURL url: String) {
-    guard let url = URL(string: url) else {
-        return //be safe
+public func open(byURL url: String, completion: @escaping (Bool) -> Void) {
+    
+    var urlFormatted = url
+
+    if !url.contains("https://") {
+        urlFormatted = "https://" + url
+    }
+    
+    guard let url = URL(string: urlFormatted) else {
+        print("problema em salvar url")
+        return
     }
     
     if #available(iOS 10.0, *) {
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        UIApplication.shared.open(url, options: [:]) { (result) in
+            completion(result)
+        }
     } else {
-        UIApplication.shared.openURL(url)
+        if UIApplication.shared.openURL(url) {
+            completion(true)
+        }else {
+            completion(false)
+        }
     }
 }
 
@@ -70,7 +84,6 @@ public func animationTF( _ view: UIView) {
 }
 
 public func isValidEmail(testStr:String) -> Bool {
-    // print("validate calendar: \(testStr)")
     let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
     
     let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
@@ -78,7 +91,6 @@ public func isValidEmail(testStr:String) -> Bool {
 }
 
 public func isValidPassword(testStr:String) -> Bool {
-    // print("validate calendar: \(testStr)")
     let emailRegEx = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*\\W)[A-Za-z\\d\\W]{8,}$"
     
     let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
@@ -87,16 +99,21 @@ public func isValidPassword(testStr:String) -> Bool {
 
 //Função randomica gerar nomes para as imagens inseridas no Firebase
 public func randomStringName(_ length: Int) -> String {
-    let letras: NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    let len = UInt32(letras.length)
+    let letrasMi = "abcdefghijklmnopqrstuvwxyz"
+    let letrasMa = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    let numeros = "0123456789"
+    
+    let alfa: NSString = letrasMi + letrasMa + numeros as NSString
+    
+    let len = UInt32(alfa.length)
     var stringRandom = ""
     
     for _ in 0 ..< length {
         let rand = arc4random_uniform(len)
-        var nextChar = letras.character(at: Int(rand))
+        var nextChar = alfa.character(at: Int(rand))
         stringRandom += NSString(characters: &nextChar, length: 1) as String
     }
     
-    return stringRandom.uppercased()
+    return stringRandom
     
 }

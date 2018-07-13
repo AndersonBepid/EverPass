@@ -11,6 +11,7 @@ import LocalAuthentication
 
 class LoginViewController: UIViewController {
     
+    
     @IBOutlet weak var lblBemVindo: UILabel!
     @IBOutlet weak var lblSubTitulo: UILabel!
     
@@ -62,7 +63,7 @@ class LoginViewController: UIViewController {
         // check if Touch ID is available
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             // 3
-            let reason = "Authenticate with Touch ID"
+            let reason = "Entrar com o Touch ID"
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { (succes, err) in
                 if succes {
                     guard let email = AppDelegate.udUser.string(forKey: "email"), let senha = AppDelegate.udUser.string(forKey: "senha") else {
@@ -88,7 +89,7 @@ class LoginViewController: UIViewController {
     @IBAction func mudarVisibilidade(_ sender: UIButton) {
         let status = visibilidadeStatus(rawValue: sender.tag)!
         
-        self.imgSenhaSignUp.image = status == .visivel ? #imageLiteral(resourceName: "lockIn") : #imageLiteral(resourceName: "unlockIn")
+        self.imgSenhaSignUp.image = status == .visivel ? #imageLiteral(resourceName: "lock") : #imageLiteral(resourceName: "unlock")
         self.tfSenhaSignUp.isSecureTextEntry = !self.tfSenhaSignUp.isSecureTextEntry
         sender.tag = status.value()
         self.tfSenhaSignUp.reloadInputViews()
@@ -208,7 +209,7 @@ class LoginViewController: UIViewController {
     
     //Reset UI do animation TF
     func cleanAnimationTF() {
-        self.viewNomeSignUp.backgroundColor = #colorLiteral(red: 0.6303958297, green: 0.7025621533, blue: 0.7372831702, alpha: 1)
+        self.viewNomeSignUp.backgroundColor = #colorLiteral(red: 0.2666666667, green: 0.3450980392, blue: 0.4078431373, alpha: 1)
         self.viewEmailSignUp.backgroundColor = self.viewNomeSignUp.backgroundColor
         self.viewSenhaSignUp.backgroundColor = self.viewNomeSignUp.backgroundColor
         
@@ -302,6 +303,10 @@ class LoginViewController: UIViewController {
             index += 1
         }
         return out
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
         
     /*

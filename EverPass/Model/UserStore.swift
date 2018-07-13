@@ -37,7 +37,7 @@ class UserStore {
                 
                 if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 201, httpStatus.statusCode != 200 {           // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    let error = NSError(domain:"", code:httpStatus.statusCode, userInfo:nil)
+                    let error = NSError(domain:"statusCode should be 200, but is \(httpStatus.statusCode)", code:httpStatus.statusCode, userInfo:nil)
                     completion(error, nil)
                     return
                 }

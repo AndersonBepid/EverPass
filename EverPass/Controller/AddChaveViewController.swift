@@ -44,7 +44,7 @@ class AddChaveViewController: UIViewController {
     @IBAction func mudarVisibilidade(_ sender: UIButton) {
         let status = visibilidadeStatus(rawValue: sender.tag)!
         
-        self.imgSenha.image = status == .visivel ? #imageLiteral(resourceName: "lockIn") : #imageLiteral(resourceName: "unlockIn")
+        self.imgSenha.image = status == .visivel ? #imageLiteral(resourceName: "lock") : #imageLiteral(resourceName: "unlock")
         self.tfSenha.isSecureTextEntry = !self.tfSenha.isSecureTextEntry
         sender.tag = status.value()
         self.tfSenha.reloadInputViews()
@@ -64,8 +64,8 @@ class AddChaveViewController: UIViewController {
             guard let user = self.user else {
                 return
             }
-            let account = chave.url + "/" + chave.email
-            KeyStore.singleton.save(byService: user.email, andAccount: account, andKey: chave, completion: { (result) in
+            
+            KeyStore.singleton.save(Key: chave, byUser: user, completion: { (result) in
                 if result {
                     popup(withViewController: self, andTitle: chave.url, andBory: "Salvo com sucesso!") { (_) in
                         self.navigationController?.popViewController(animated: true)
@@ -75,6 +75,11 @@ class AddChaveViewController: UIViewController {
                 }
             })
         }
+    }
+    
+    @IBAction func gerarSenha(_ sender: UIBarButtonItem) {
+        let senha = randomStringName(10)
+        self.tfSenha.text = senha
     }
     
     //Ajustes de auto layout
@@ -89,7 +94,7 @@ class AddChaveViewController: UIViewController {
     
     //Reset UI do animation TF
     func cleanAnimationTF() {
-        self.viewUrl.backgroundColor = #colorLiteral(red: 0.6303958297, green: 0.7025621533, blue: 0.7372831702, alpha: 1)
+        self.viewUrl.backgroundColor = #colorLiteral(red: 0.2666666667, green: 0.3450980392, blue: 0.4078431373, alpha: 1)
         self.viewEmail.backgroundColor = self.viewUrl.backgroundColor
         self.viewSenha.backgroundColor = self.viewUrl.backgroundColor
     }
@@ -125,7 +130,7 @@ class AddChaveViewController: UIViewController {
 
 extension AddChaveViewController: UITextFieldDelegate {
     
-    //Reset UI do animation TF
+    //Limpa a UI do animation TF
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.cleanAnimationTF()
     }
@@ -141,7 +146,7 @@ extension AddChaveViewController: UITextFieldDelegate {
                             //Recebendo a imagem e removendo a view de animação
                             self.imgUrl.image = img
                         }else {
-                            self.imgUrl.image = #imageLiteral(resourceName: "urlIn")
+                            self.imgUrl.image = #imageLiteral(resourceName: "url")
                         }
                     }
                 }

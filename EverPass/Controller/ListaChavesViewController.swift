@@ -18,15 +18,6 @@ class ListaChavesViewController: UIViewController {
     var user: User?
     var chaves: [Key] = []
     
-    let kSecClassValue = NSString(format: kSecClass)
-    let kSecAttrAccountValue = NSString(format: kSecAttrAccount)
-    let kSecValueDataValue = NSString(format: kSecValueData)
-    let kSecClassGenericPasswordValue = NSString(format: kSecClassGenericPassword)
-    let kSecAttrServiceValue = NSString(format: kSecAttrService)
-    let kSecMatchLimitValue = NSString(format: kSecMatchLimit)
-    let kSecReturnDataValue = NSString(format: kSecReturnData)
-    let kSecMatchLimitOneValue = NSString(format: kSecMatchLimitOne)
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -64,7 +55,7 @@ class ListaChavesViewController: UIViewController {
     //
     func getChaves(byUser user: User) {
         self.aiChave.startAnimating()
-        KeyStore.singleton.load(byService: user.email, completion: { (chaves) in
+        KeyStore.singleton.load(byUser: user, completion: { (chaves) in
             if chaves.isEmpty {
                 self.chaves = []
                 self.lblInfoSemResultado.isHidden = false
@@ -99,6 +90,10 @@ class ListaChavesViewController: UIViewController {
         }
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             let detailVC = segue.destination as! DetalhesViewController
@@ -122,10 +117,10 @@ extension ListaChavesViewController: UICollectionViewDataSource, UICollectionVie
         
         //View de animação de espera do download image
         let viewWaiting = UIView(frame: cell.imgUrl.frame)
-        viewWaiting.backgroundColor = #colorLiteral(red: 0.1963784397, green: 0.2558482885, blue: 0.2836095989, alpha: 0.75)
+        viewWaiting.backgroundColor = #colorLiteral(red: 0.1294117647, green: 0.1647058824, blue: 0.1921568627, alpha: 0.8)
         let aiImg = UIActivityIndicatorView(activityIndicatorStyle: .white)
         aiImg.startAnimating()
-        aiImg.color = #colorLiteral(red: 0.6303958297, green: 0.7025621533, blue: 0.7372831702, alpha: 1)
+        aiImg.color = #colorLiteral(red: 0.9921568627, green: 0.7921568627, blue: 0.1843137255, alpha: 1)
         
         //Add o ActivityIndicator na View, e a View na Image
         aiImg.center = viewWaiting.center
@@ -138,7 +133,7 @@ extension ListaChavesViewController: UICollectionViewDataSource, UICollectionVie
             //Movendo esse trecho para uma thread secundaria, para nao comprometer o fluxo do app
             DispatchQueue.main.async {
                 if err != nil {
-                    print(err?.localizedDescription)
+                    print(err?.localizedDescription ?? "Erro não identificado")
                     cell.imgUrl.image = nil
                 }
                 

@@ -23,10 +23,13 @@ class KeyStore {
     let imageCache = NSCache<NSString, UIImage>()
 
     
-    func update(byService service: String, andOldAccount account: String, andCurrentAccount cAccount: String, andKey key: Key, completion: (Bool) -> Void) {
-        let keyData = NSKeyedArchiver.archivedData(withRootObject: key)
+    func update(byKey key: Key, fromKey cKey: Key, byUser user: User, completion: (Bool) -> Void) {
+        let service = user.email!
+        let account = key.url + "/" + key.email
+        let cAccount = cKey.url + "/" + cKey.email
+
+        let keyData = NSKeyedArchiver.archivedData(withRootObject: cKey)
         
-        // Instantiate a new default keychain query
         let keychainQuery: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, service, account], forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue])
         
         let status = SecItemUpdate(keychainQuery as CFDictionary, [kSecValueDataValue: keyData, kSecAttrAccountValue: cAccount] as CFDictionary)
@@ -42,17 +45,17 @@ class KeyStore {
     }
     
     
-    func remove(byAccount account: String, andService service: String, andKey key: Key, completion: (Bool) -> Void) {
+    func remove(Key key: Key, byUser user: User, completion: (Bool) -> Void) {
+        let service = user.email!
+        let account = key.url + "/" + key.email
+        
         let keyData = NSKeyedArchiver.archivedData(withRootObject: key)
         
-        // Instantiate a new default keychain query
         let keychainQuery: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, service, account, keyData], forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecValueDataValue])
         
-        // Add the new keychain item
         let status = SecItemDelete(keychainQuery as CFDictionary)
-        //        status = SecItemAdd(keychainQuery as CFDictionary, nil)
         
-        if (status != errSecSuccess) {    // Always check the status
+        if (status != errSecSuccess) {
             if let err = SecCopyErrorMessageString(status, nil) {
                 print("Write failed: \(err)")
             }
@@ -63,16 +66,17 @@ class KeyStore {
     }
     
     
-    func save(byService service: String, andAccount account: String, andKey key: Key, completion: (Bool) -> Void) {
+    func save(Key key: Key, byUser user: User, completion: (Bool) -> Void) {
+        let service = user.email!
+        let account = key.url + "/" + key.email
+        
         let keyData = NSKeyedArchiver.archivedData(withRootObject: key)
         
-        // Instantiate a new default keychain query
         let keychainQuery: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, service, account, keyData], forKeys: [kSecClassValue, kSecAttrServiceValue, kSecAttrAccountValue, kSecValueDataValue])
         
-        // Add the new keychain item
         let status = SecItemAdd(keychainQuery as CFDictionary, nil)
         
-        if (status != errSecSuccess) {    // Always check the status
+        if (status != errSecSuccess) {
             if let err = SecCopyErrorMessageString(status, nil) {
                 print("Write failed: \(err)")
             }
@@ -82,15 +86,13 @@ class KeyStore {
         }
     }
     
-    func load(byService service: String, completion: (_ chaves: [Key]) -> Void) {
-        // Instantiate a new default keychain query
-        // Tell the query to return a result
-        // Limit our results to one item
+    func load(byUser user: User, completion: (_ chaves: [Key]) -> Void) {
+        
+        let service = user.email!
         let keychainQuery: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, service, kCFBooleanTrue, kSecMatchLimitAll], forKeys: [kSecClassValue, kSecAttrServiceValue, kSecReturnDataValue, kSecMatchLimitValue])
         
         var dataTypeRef :AnyObject?
         
-        // Search for the keychain items
         let status: OSStatus = SecItemCopyMatching(keychainQuery, &dataTypeRef)
         var keys: [Key] = []
         
@@ -125,14 +127,14 @@ class KeyStore {
             request.httpMethod = "GET"
             
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                guard let data = data, error == nil else {
                     completion(error, nil)
                     return
                 }
                 
-                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 201, httpStatus.statusCode != 200 {           // check for http errors
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 201, httpStatus.statusCode != 200 {
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print(response)
+                    print(response?.description ?? "Problema em ler o response")
                     let error = NSError(domain:"", code:httpStatus.statusCode, userInfo:nil)
                     completion(error, nil)
                     return
